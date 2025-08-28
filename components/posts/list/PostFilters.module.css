@@ -1,0 +1,32 @@
+.filtersContainer {
+  width: 30%;
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  align-items: flex-end;
+}
+
+.searchInput {
+  flex: 1;
+}
+
+.categoriesSelect {
+  min-width: 9.375rem;
+}
+
+.difficultySelect {
+  min-width: 7.5rem;
+}
+
+.difficultyContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.clearButton {
+  color: var(--mantine-color-gray-5);
+}
+
+.clearButton:hover {
+  color: var(--mantine-color-red-6);
+}

@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BuildDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
+model Category { 
+  id   Int @id @default(autoincrement())
+  name String
+  postCategories PostCategory[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  legoModelNumber String
+  pieces Int?
+  imageUrl String
+  contactPhone String
+  buildDifficulty BuildDifficulty
+  publisher String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  postCategories PostCategory[]
+}
+
+model PostCategory {
+  id            Int       @id @default(autoincrement())
+  postId        Int
+  categoryId    Int
+  post          Post         @relation(fields: [postId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id])
+  createdAt     DateTime     @default(now())
+  
+  @@unique([postId, categoryId])
+}

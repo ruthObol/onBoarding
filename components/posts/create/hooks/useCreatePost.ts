@@ -1,0 +1,40 @@
+import { KEYS } from '@/client/config/swr';
+import { PostSchemaType } from '@/types';
+import { mutate } from 'swr';
+import useSWRMutation from 'swr/mutation';
+
+const fetcher = async (_url: string, { arg }: { arg: Partial<PostSchemaType> }) => {
+  const response = await fetch('/api/posts/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(arg),
+  });
+
+  return response.json()
+};
+
+export const useCreatePost = (handleSuccess: () => void, handleError: (error: Error) => void) => {
+  const { trigger, isMutating, error, data, } = useSWRMutation(
+    KEYS.POSTS, fetcher,
+    {
+      onSuccess: async () => {
+        await mutate(KEYS.POSTS);
+        handleSuccess()
+      },
+      onError: (error: Error) => {
+        handleError(error)
+
+      },
+      throwOnError: false,
+    }
+  );
+
+  return {
+    createPost: trigger,
+    isCreating: isMutating,
+    error,
+    data,
+  };
+};

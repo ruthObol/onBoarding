@@ -1,0 +1,25 @@
+.card {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+}
+
+.imageContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.hoverImage {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%;
+}
+
+.imageContainer:hover .hoverImage {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
