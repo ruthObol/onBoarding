@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { MultiSelect, TextInput, Button, Group } from '@mantine/core';
+import { MultiSelect, TextInput, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useGetCategories } from './hooks/useGetCategories';
 import { useCreateCategory } from './hooks/useCreateCategory';
+import styles from './CategorySelector.module.css';
 
 interface CategorySelectorProps {
   value: number[];
@@ -41,7 +42,7 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <MultiSelect
         label="Categories"
         placeholder="Select categories"
@@ -52,28 +53,23 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
         disabled={categoriesLoading}
       />
 
-      <Group gap="xs">
+      <div className={styles.inputGroup}>
         <TextInput
           placeholder="Quick add new category"
           value={newCategoryName}
           onChange={(event) => setNewCategoryName(event.currentTarget.value)}
-          style={{ flex: 1 }}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              handleCreateCategory();
-            }
-          }}
+          className={styles.textInput}
         />
         <Button
           size="sm"
           onClick={handleCreateCategory}
           loading={isCreatingCategory}
           disabled={!newCategoryName.trim()}
+          className={styles.addButton}
         >
           Add Category
         </Button>
-      </Group>
-    </>
+      </div>
+    </div>
   );
 }

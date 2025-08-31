@@ -19,36 +19,41 @@ enum BuildDifficulty {
 }
 
 model Category { 
-  id   Int @id @default(autoincrement())
-  name String
-  postCategories PostCategory[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  postCategories PostCategory[]  @relation("CategoryToPostCategories")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
+  id              Int             @id @default(autoincrement())
+  title           String
+  content         String
   legoModelNumber String
-  pieces Int?
-  imageUrl String
-  contactPhone String
+  pieces          Int?
+  imageUrl        String
+  contactPhone    String
   buildDifficulty BuildDifficulty
-  publisher String
+  publisher       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   deletedAt DateTime?
 
-  postCategories PostCategory[]
+  postCategories PostCategory[]  @relation("PostToPostCategories")
 }
 
 model PostCategory {
-  id            Int       @id @default(autoincrement())
-  postId        Int
-  categoryId    Int
-  post          Post         @relation(fields: [postId], references: [id])
-  category      Category @relation(fields: [categoryId], references: [id])
-  createdAt     DateTime     @default(now())
-  
+  id         Int      @id @default(autoincrement())
+
+  postId     Int
+  categoryId Int
+
+  post     Post     @relation("PostToPostCategories", fields: [postId], references: [id], onDelete: Cascade)
+  category Category @relation("CategoryToPostCategories", fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
   @@unique([postId, categoryId])
+  @@index([postId])
+  @@index([categoryId])
 }

@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.textInput {
+  flex: 1;
+}
+
+.addButton {
+  white-space: nowrap;
+}

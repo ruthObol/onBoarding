@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { Modal } from '@mantine/core';
 import classes from './PostImage.module.css';
 
 interface PostImageProps {
@@ -24,22 +23,28 @@ export const PostImage = ({ imageUrl, title }: PostImageProps) => {
         />
       </div>
 
-      <Modal
-        opened={imageModalOpen}
-        onClose={() => setImageModalOpen(false)}
-        size="xl"
-        centered
-        withCloseButton
-        title={title}
-      >
-        <Image
-          src={imageUrl}
-          alt={title}
-          width={800}
-          height={600}
-          style={{ width: '100%', height: 'auto' }}
-        />
-      </Modal>
+      {imageModalOpen && (
+        <div className={classes.modalOverlay} onClick={() => setImageModalOpen(false)}>
+          <div className={classes.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={classes.modalHeader}>
+              <h3 className={classes.modalTitle}>{title}</h3>
+              <button 
+                className={classes.closeButton}
+                onClick={() => setImageModalOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <Image
+              src={imageUrl}
+              alt={title}
+              width={800}
+              height={600}
+              className={classes.modalImage}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

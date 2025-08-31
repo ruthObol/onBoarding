@@ -1,41 +1,35 @@
-import { Group, Text, Button } from '@mantine/core';
 import { IconUser, IconLogout } from '@tabler/icons-react';
 import { useUserStore } from '@/stores/user-store';
+import styles from './Header.module.css';
 
 export const Header = () => {
   const { userName, clearUserName } = useUserStore();
 
   return (
-    <header style={{
-      padding: '1rem 2rem',
-      borderBottom: '1px solid #e9ecef',
-      backgroundColor: '#fff',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    }}>
-      <Group justify="space-between" align="center">
+    <header className={styles.header}>
+      <div className={styles.container}>
         <div>
-          <Text size="xl" fw={700} c="blue">
+          <h1 className={styles.title}>
             Click & Build
-          </Text>
+          </h1>
         </div>
         
         {userName && (
-          <Group gap="sm">
+          <div className={styles.userSection}>
             <IconUser size={20} />
-            <Text size="sm" fw={500}>
+            <span className={styles.userText}>
               Welcome, {userName}!
-            </Text>
-            <Button 
-              variant="subtle" 
-              size="xs"
-              leftSection={<IconLogout size={16} />}
+            </span>
+            <button 
+              className={styles.logoutButton}
               onClick={clearUserName}
             >
+              <IconLogout size={16} />
               Logout
-            </Button>
-          </Group>
+            </button>
+          </div>
         )}
-      </Group>
+      </div>
     </header>
   );
 };

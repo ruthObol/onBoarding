@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { 
   Group, 
   TextInput, 
@@ -7,63 +6,27 @@ import {
   ActionIcon
 } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { BuildDifficulty, Category } from "@prisma/client";
-import useSWR from "swr";
 import classes from "./PostFilters.module.css";
-import { KEYS } from "@/client/config/swr";
+import { usePostFilters, FilterState } from "./usePostFilters";
 
 interface PostFiltersProps {
   onFiltersChange: (filters: FilterState) => void;
 }
 
-export interface FilterState {
-  search: string;
-  categories: string[];
-  difficulty: BuildDifficulty | null;
-}
-
-const difficultyOptions = [
-  { value: BuildDifficulty.EASY, label: "Easy" },
-  { value: BuildDifficulty.MEDIUM, label: "Medium" },
-  { value: BuildDifficulty.HARD, label: "Hard" },
-  { value: BuildDifficulty.EXPERT, label: "Expert" },
-];
-//const
+export type { FilterState };
 
 export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
-  const [filters, setFilters] = useState<FilterState>({
-    search: "",
-    categories: [],
-    difficulty: null,
-  });
-
-  const { data: categories = [] } = useSWR<Category[]>(KEYS.CATEGORIES);
-
-  const categoryOptions = categories.map(category => ({
-    value: category.id.toString(),
-    label: category.name,
-  }));
-
-  useEffect(() => {
-    onFiltersChange(filters);
-  }, [filters, onFiltersChange]);
-  //TODO: call it in handlers
-
-  const handleSearchChange = (value: string) => {
-    setFilters(prev => ({ ...prev, search: value }));
-  };
-
-  const handleCategoriesChange = (value: string[]) => {
-    setFilters(prev => ({ ...prev, categories: value }));
-  };
-
-  const handleDifficultyChange = (value: string | null) => {
-    const difficulty = value ? (Object.values(BuildDifficulty).includes(value as BuildDifficulty) ? value as BuildDifficulty : null) : null;
-    setFilters(prev => ({ ...prev, difficulty }));
-  };
+  const {
+    filters,
+    categoryOptions,
+    difficultyOptions,
+    handleSearchChange,
+    handleCategoriesChange,
+    handleDifficultyChange,
+  } = usePostFilters(onFiltersChange);
 
   return (
-    <div className={classes.filtersContainer}>
+    <Group className={classes.filtersContainer}>
       <TextInput
         placeholder="Search by title..."
         value={filters.search}
@@ -81,12 +44,12 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
         className={classes.categoriesSelect}
       />
 
-      <div className={classes.difficultyContainer}>
+      <Group className={classes.difficultyContainer}>
         <Select
           placeholder="Difficulty..."
           data={difficultyOptions}
           value={filters.difficulty}
-          onChange={handleDifficultyChange}//TODO
+          onChange={handleDifficultyChange}
           className={classes.difficultySelect}
         />
         {filters.difficulty && (
@@ -99,7 +62,7 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
             <IconX size={14} />
           </ActionIcon>
         )}
-      </div>
-    </div>
+      </Group>
+    </Group>
   );
 };
