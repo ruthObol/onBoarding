@@ -22,7 +22,6 @@ export async function errorHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('errorHandler', error);
   let status = 500;
   let message = 'Internal Server Error';
 

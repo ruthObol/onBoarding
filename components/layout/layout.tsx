@@ -1,8 +1,10 @@
-import styles from './layout.module.css';
-import { LayoutProps } from '../../types';
-
+import classes from './layout.module.css';
 export const siteTitle = 'Next.js Sample Website';
 
-export default function Layout({ children, home }: LayoutProps) {
-  return <div className={styles.container}>{children}</div>;
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
+  return <div className={classes.container}>{children}</div>;
 }

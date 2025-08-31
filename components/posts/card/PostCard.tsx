@@ -1,7 +1,7 @@
-import { Post } from '@/types';
-import { Card, Image, Text, Badge, Button, Group, Stack, Modal } from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, Stack, Modal } from '@mantine/core';//next image
 import { useState } from 'react';
-import styles from './PostCard.module.css';
+import classes from './PostCard.module.css';
+import { Post } from '@/types';
 
 export const PostCard = ({post}: {post: Post}) =>{
     const [imageModalOpen, setImageModalOpen] = useState(false);
@@ -13,14 +13,14 @@ export const PostCard = ({post}: {post: Post}) =>{
         padding="lg" 
         radius="md" 
         withBorder
-        className={styles.card}
+        className={classes.card}
       >
         <Card.Section>
           <Image
             src={post.imageUrl}
             height={160}
             alt="imageUrl"
-            className={styles.hoverImage}
+            className={classes.hoverImage}
             onClick={() => setImageModalOpen(true)}
             style={{ cursor: 'pointer' }}
           />
@@ -35,7 +35,7 @@ export const PostCard = ({post}: {post: Post}) =>{
           Published by: {post.publisher}
         </Text>
        
-        <Text size="sm" c="dimmed" className={styles.content}>
+        <Text size="sm" c="dimmed" className={classes.content}>
          {post.content}
         </Text>
         {post.postCategories && post.postCategories.length > 0 && (
@@ -57,7 +57,7 @@ export const PostCard = ({post}: {post: Post}) =>{
           fullWidth 
           mt="md" 
           radius="md"
-          onClick={() => window.open(`tel:${post.contactPhone}`, '_self')}
+          onClick={() => window.open(`tel:${post.contactPhone}`, '_self')}//next router 
         >
           {post.contactPhone}
         </Button>

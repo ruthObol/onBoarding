@@ -1,12 +1,14 @@
 import { errorHandler } from '@/server/middlewares/errorHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
-import { getPosts } from '../../server/post/dal/posts-dal';
+import { createPost, getPosts } from '../../server/post/dal/posts-dal';
 import { Post } from '@prisma/client';
+import { CreatePostRequestSchema, PostSchema } from '@/schemas/post-schema';
+import { validateRequest } from '@/server/middlewares/validation';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-async function handler(req: NextApiRequest, res: NextApiResponse<Post[]>) {
+async function getHandler(req: NextApiRequest, res: NextApiResponse<Post[]>) {
   const { search, categories, difficulty } = req.query;
 
   const filters = {
@@ -23,6 +25,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Post[]>) {
   res.status(200).json(posts);
 }
 
-router.get(handler);
+async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
+  const postData = req.body;
+  const post = await createPost({...postData})
+  res.status(201).json(post);
+}
+
+router.get(getHandler);
+router.post(validateRequest(CreatePostRequestSchema),
+  postHandler);
 
 export default router.handler({ onError: errorHandler });

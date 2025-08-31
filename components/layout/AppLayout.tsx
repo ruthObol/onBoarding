@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { UserNameInput } from '../user/UserNameInput';
 import { useUserStore } from '@/stores/user-store';
-import styles from './AppLayout.module.css';
+import classes from './AppLayout.module.css';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -19,10 +19,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   }, [userName]);
 
   return (
-    <div className={styles.container}>
+    <div className={classes.container}>
       <Header />
       
-      <main className={styles.main}>
+      <main className={classes.main}>
         {children}
       </main>
 

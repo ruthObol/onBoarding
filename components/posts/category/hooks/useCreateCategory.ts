@@ -1,4 +1,5 @@
 import { KEYS } from '@/client/config/swr';
+import { mutate } from 'swr';
 import { notifications } from '@mantine/notifications';
 import useSWRMutation from 'swr/mutation';
 
@@ -25,6 +26,10 @@ export function useCreateCategory() {
     KEYS.CATEGORIES,
     fetcher,
     {
+      onSuccess: async () => {
+        // Mutate all categories-related keys
+        await mutate((key) => typeof key === 'string' && key.startsWith(KEYS.CATEGORIES));
+      },
       onError: (error: Error) => {
         notifications.show({
           title: 'Error',

@@ -1,5 +1,5 @@
 import { Post } from "@/types";
-import { FilterState } from "./PostFilters";
+import { FilterState } from "../filter/PostFilters";
 import useSWR from "swr";
 import { KEYS } from "@/client/config/swr";
 
@@ -20,7 +20,7 @@ export const useGetPosts = (filters?: FilterState) => {
         searchParams.append('difficulty', filters.difficulty);
     }
     
-    const url = `${KEYS.POSTS}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    const url = `${KEYS.POSTS}?${searchParams.toString()}`;
     
     const { data: posts, error, isLoading } = useSWR<Post[]>(url, {
         fallbackData: [], 

@@ -3,10 +3,10 @@ import { useState, useCallback } from "react";
 import { Button, Group, Tooltip, Stack } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { NewPostForm } from "../create/NewPostForm";
-import { useGetPosts } from "./useGetPosts";
+import { useGetPosts } from "./hooks/useGetPosts";
 import { useUserStore } from "@/stores/user-store";
-import { PostFilters, FilterState } from "./PostFilters";
-import styles from "./PostList.module.css";
+import { PostFilters, FilterState } from "./filter/PostFilters";
+import classes from "./PostList.module.css";
 
 
 export const PostList = () => {
@@ -23,10 +23,12 @@ export const PostList = () => {
       setFilters(newFilters);
     }, []);
 
+    //hook for logic
+
 
     return (
-      <section className={styles.section}>
-        <div className={styles.header}>
+      <section className={classes.section}>
+        <div className={classes.header}>
           <Group justify="space-between" align="center">
             <h2>Click & Build</h2>
             <Tooltip 
@@ -50,20 +52,21 @@ export const PostList = () => {
           <PostFilters onFiltersChange={handleFiltersChange} />
           
           {!isLoading && !error && (
-            <p className={styles.resultsCount}>
+            <p className={classes.resultsCount}>
               Showing {posts.length} posts
             </p>
           )}
           
-          <div className={styles.postsContainer}>
+          {/* //clear code */}
+          <div className={classes.postsContainer}>
             {error ? (
-              <p className={styles.errorMessage}>Error loading posts</p>
+              <p className={classes.errorMessage}>Error loading posts</p>
             ) : isLoading ? (
-              <p className={styles.loadingMessage}>Loading posts...</p>
+              <p className={classes.loadingMessage}>Loading posts...</p>
             ) : posts.length === 0 ? (
-              <p className={styles.errorMessage}>No posts found matching your filters</p>
+              <p className={classes.errorMessage}>No posts found matching your filters</p>
             ) : (
-              <div className={styles.postsGrid}>
+              <div className={classes.postsGrid}>
                 {posts.map((post) => (
                   <PostCard key={post.id} post={post}/>
                 ))}

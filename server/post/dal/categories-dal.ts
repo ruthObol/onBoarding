@@ -1,52 +1,25 @@
-import { PrismaClient } from '@prisma/client';
+import prismaClient from "@/server/lib/prisma";
 
-const prisma = new PrismaClient({
-  log: [
-    {
-      emit: 'event',
-      level: 'query',
-    },
-    {
-      emit: 'stdout',
-      level: 'error',
-    },
-    {
-      emit: 'stdout',
-      level: 'info',
-    },
-    {
-      emit: 'stdout',
-      level: 'warn',
-    },
-  ],
-});
-
-// Log queries to console
-prisma.$on('query', (e: any) => {
-  console.log('Query: ' + e.query);
-  console.log('Params: ' + e.params);
-  console.log('Duration: ' + e.duration + 'ms');
-});
-
-export const getCategories = () => prisma.category.findMany({
+export const getCategories = () => prismaClient
+.category.findMany({
   orderBy: {
     name: 'asc',
   },
 });
 
-export const getCategoryById = (id: number) => prisma.category.findUnique({
+export const getCategoryById = (id: number) => prismaClient.category.findUnique({
   where: { id },
 });
 
-export const createCategory = (name: string) => prisma.category.create({
+export const createCategory = (name: string) => prismaClient.category.create({
   data: { name },
 });
 
-export const updateCategory = (id: number, name: string) => prisma.category.update({
+export const updateCategory = (id: number, name: string) => prismaClient.category.update({
   where: { id },
   data: { name },
 });
 
-export const deleteCategory = (id: number) => prisma.category.delete({
+export const deleteCategory = (id: number) => prismaClient.category.delete({
   where: { id },
 });

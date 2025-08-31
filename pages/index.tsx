@@ -8,7 +8,6 @@ export default function Home() {
       <Head>
         <title>Lego Lovers Blog</title>
       </Head>
-
       <PostList />
     </AppLayout>
   );

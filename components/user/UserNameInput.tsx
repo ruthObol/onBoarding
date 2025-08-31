@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Modal, TextInput, Button, Group, Text } from '@mantine/core';
 import { useUserStore } from '@/stores/user-store';
+import { Button, Group, Modal, Text, TextInput } from '@mantine/core';
+import classes from './UserNameInput.module.css';
 
 interface UserNameInputProps {
   opened: boolean;
@@ -8,20 +8,23 @@ interface UserNameInputProps {
 }
 
 export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
-  const [name, setName] = useState('');
-  const { setUserName } = useUserStore();
+  const setUserName = useUserStore(store => store.setUserName);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) {
-      setUserName(name.trim());
-      onClose();
-    }
+
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const userName = formData.get('userName');
+
+    setUserName(userName?.toString() || '')
+    onClose();
   };
 
+
+
   return (
-    <Modal 
-      opened={opened} 
+    <Modal
+      opened={opened}
       onClose={onClose}
       title="Welcome! Please enter your name"
       centered
@@ -29,22 +32,21 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
       closeOnEscape={false}
     >
       <form onSubmit={handleSubmit}>
-        <Text size="sm" c="dimmed" mb="md">
+        <Text className={classes.welcomeText}>
           We'd like to know your name to personalize your experience.
         </Text>
-        
+
         <TextInput
           label="Your Name"
           placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
           required
           autoFocus
-          mb="md"
+          name='userName'
+          className={classes.textInput}
         />
-        
-        <Group justify="flex-end">
-          <Button type="submit" disabled={!name.trim()}>
+
+        <Group className={classes.buttonGroup}>
+          <Button type="submit">
             Continue
           </Button>
         </Group>

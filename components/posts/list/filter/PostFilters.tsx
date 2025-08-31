@@ -7,10 +7,9 @@ import {
   ActionIcon
 } from "@mantine/core";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { BuildDifficulty } from "@prisma/client";
-import { Category } from "@/types";
+import { BuildDifficulty, Category } from "@prisma/client";
 import useSWR from "swr";
-import styles from "./PostFilters.module.css";
+import classes from "./PostFilters.module.css";
 import { KEYS } from "@/client/config/swr";
 
 interface PostFiltersProps {
@@ -20,15 +19,16 @@ interface PostFiltersProps {
 export interface FilterState {
   search: string;
   categories: string[];
-  difficulty: string | null;
+  difficulty: BuildDifficulty | null;
 }
 
 const difficultyOptions = [
-  { value: "EASY", label: "Easy" },
-  { value: "MEDIUM", label: "Medium" },
-  { value: "HARD", label: "Hard" },
-  { value: "EXPERT", label: "Expert" },
+  { value: BuildDifficulty.EASY, label: "Easy" },
+  { value: BuildDifficulty.MEDIUM, label: "Medium" },
+  { value: BuildDifficulty.HARD, label: "Hard" },
+  { value: BuildDifficulty.EXPERT, label: "Expert" },
 ];
+//const
 
 export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
   const [filters, setFilters] = useState<FilterState>({
@@ -47,6 +47,7 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
   useEffect(() => {
     onFiltersChange(filters);
   }, [filters, onFiltersChange]);
+  //TODO: call it in handlers
 
   const handleSearchChange = (value: string) => {
     setFilters(prev => ({ ...prev, search: value }));
@@ -56,18 +57,18 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
     setFilters(prev => ({ ...prev, categories: value }));
   };
 
-  const handleDifficultyChange = (value: string | null) => {
+  const handleDifficultyChange = (value: BuildDifficulty | null) => {
     setFilters(prev => ({ ...prev, difficulty: value }));
   };
 
   return (
-    <div className={styles.filtersContainer}>
+    <div className={classes.filtersContainer}>
       <TextInput
         placeholder="Search by title..."
         value={filters.search}
         onChange={(event) => handleSearchChange(event.currentTarget.value)}
         leftSection={<IconSearch size={16} />}
-        className={styles.searchInput}
+        className={classes.searchInput}
       />
 
       <MultiSelect
@@ -76,23 +77,24 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
         value={filters.categories}
         onChange={handleCategoriesChange}
         searchable
-        className={styles.categoriesSelect}
+        className={classes.categoriesSelect}
       />
 
-      <div className={styles.difficultyContainer}>
+      <div className={classes.difficultyContainer}>
         <Select
           placeholder="Difficulty..."
           data={difficultyOptions}
           value={filters.difficulty}
-          onChange={handleDifficultyChange}
-          className={styles.difficultySelect}
+          onChange={handleDifficultyChange}//TODO
+          
+          className={classes.difficultySelect}
         />
         {filters.difficulty && (
           <ActionIcon
             variant="subtle"
             size="sm"
             onClick={() => handleDifficultyChange(null)}
-            className={styles.clearButton}
+            className={classes.clearButton}
           >
             <IconX size={14} />
           </ActionIcon>

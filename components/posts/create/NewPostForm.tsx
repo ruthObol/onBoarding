@@ -1,5 +1,5 @@
 import { useUserStore } from '@/stores/user-store';
-import { PostSchemaType, PostSchema } from '@/types';
+import { BuildDifficulty } from '@prisma/client';
 import {
   Button,
   Group,
@@ -16,6 +16,8 @@ import { zodResolver } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { CategorySelector } from '../category/CategorySelector';
 import { useCreatePost } from './hooks/useCreatePost';
+import { PostSchema } from '../../../schemas/post-schema';
+import { PostSchemaType } from './types';
 
 interface NewPostFormProps {
   opened: boolean;
@@ -23,16 +25,16 @@ interface NewPostFormProps {
 }
 
 const buildDifficultyOptions = [
-  { value: 'EASY', label: 'Easy' },
-  { value: 'MEDIUM', label: 'Medium' },
-  { value: 'HARD', label: 'Hard' },
-  { value: 'EXPERT', label: 'Expert' },
+  { value: BuildDifficulty.EASY, label: 'Easy' },
+  { value: BuildDifficulty.MEDIUM, label: 'Medium' },
+  { value: BuildDifficulty.HARD, label: 'Hard' },
+  { value: BuildDifficulty.EXPERT, label: 'Expert' },
 ];
 
 export function NewPostForm({ opened, onClose }: NewPostFormProps) {
   const { userName } = useUserStore();
 
-  const form = useForm({
+  const form = useForm<PostSchemaType>({
     initialValues: {
       title: '',
       content: '',
@@ -40,9 +42,9 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
       pieces: null,
       imageUrl: '',
       contactPhone: '',
-      buildDifficulty: 'MEDIUM' as const,
+      buildDifficulty: BuildDifficulty.MEDIUM,
       publisher: userName!,
-      categoryIds: [] as number[],
+      categoryIds: [],
     },
     validate: zodResolver(PostSchema),
   });
@@ -63,7 +65,7 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
   const handleError = (error: Error) => {
     notifications.show({
       title: 'Error! ❌',
-      message: error instanceof Error ? error.message : 'Failed to create post',
+      message: error.message || 'Failed to create post',
       color: 'red',
       autoClose: 7000,
     });
@@ -79,9 +81,7 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
     await createPost(transformedData);
   }
 
-  const handleFormSubmit = form.onSubmit(handleSubmit, (errors) => {
-    console.log('Zod validation failed:', errors);
-  });
+  const handleFormSubmit = form.onSubmit(handleSubmit);
 
   return (
     <Modal
@@ -150,7 +150,7 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
           />
 
           <CategorySelector
-            value={form.values.categoryIds}
+            value={form.values.categoryIds || []}
             onChange={(value) => form.setFieldValue('categoryIds', value)}
           />
 

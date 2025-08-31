@@ -1,0 +1,18 @@
+.modal {
+  /* Modal styles will be handled by Mantine Modal component */
+}
+
+.welcomeText {
+  font-size: 0.875rem;
+  color: var(--mantine-color-gray-6);
+  margin-bottom: 1rem;
+}
+
+.textInput {
+  margin-bottom: 1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+}

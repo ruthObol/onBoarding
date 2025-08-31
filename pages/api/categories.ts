@@ -15,10 +15,8 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   const { name } = req.body;
-
-  throw new Error('test');
-  const newCategory = await createCategory(name.trim());
-  res.status(201).json(newCategory);
+  const category = await createCategory(name);
+  res.status(201).json(category);
 }
 
 router.get(getHandler);
