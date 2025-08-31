@@ -15,10 +15,9 @@ const fetcher = async (_url: string, { arg }: { arg: Partial<Category> }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(arg),
-  }); 
+  });
 
-
-    return response.json()
+  return response.json()
 };
 
 export function useCreateCategory() {
@@ -27,7 +26,6 @@ export function useCreateCategory() {
     fetcher,
     {
       onSuccess: async () => {
-        // Mutate all categories-related keys
         await mutate((key) => typeof key === 'string' && key.startsWith(KEYS.CATEGORIES));
       },
       onError: (error: Error) => {

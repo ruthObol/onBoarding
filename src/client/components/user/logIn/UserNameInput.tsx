@@ -20,8 +20,6 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
     onClose();
   };
 
-
-
   return (
     <Modal
       opened={opened}

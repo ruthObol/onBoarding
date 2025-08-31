@@ -1,0 +1,3 @@
+src/server/lib/prisma.ts
+# Generated OpenAPI file
+src/server/v2transactions/services/api/types/transactions-service-types.ts

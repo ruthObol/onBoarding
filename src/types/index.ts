@@ -1,5 +1,5 @@
 import { PostSchema } from "@/src/schemas/post-schema";
-import { PostCategory, Post as PrismaPost } from "@prisma/client";
+import { PostCategory, Post as PrismaPost , Category as PrismaCategory} from "@prisma/client";
 import { z } from "zod";
 
 export type Post = PrismaPost & {
@@ -14,3 +14,4 @@ export interface PostFilters {
   difficulty?: string;
 }
 
+export type Category = PrismaCategory

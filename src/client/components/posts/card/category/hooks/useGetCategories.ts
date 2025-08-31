@@ -1,10 +1,6 @@
 import { KEYS } from '@/src/client/config/swr';
+import { Category } from '@/src/types';
 import useSWR from 'swr';
-
-interface Category {
-  id: number;
-  name: string;
-}
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

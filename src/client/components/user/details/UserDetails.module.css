@@ -1,0 +1,20 @@
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userText {
+  font-weight: 500;
+  color: var(--mantine-color-gray-7);
+}
+
+.logoutButton {
+  color: var(--mantine-color-gray-6);
+  transition: color 0.2s ease;
+}
+
+.logoutButton:hover {
+  color: var(--mantine-color-red-6);
+  background-color: var(--mantine-color-red-0);
+}

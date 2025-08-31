@@ -3,7 +3,7 @@ import { MultiSelect, TextInput, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useGetCategories } from './hooks/useGetCategories';
 import { useCreateCategory } from './hooks/useCreateCategory';
-import styles from './CategorySelector.module.css';
+import classes from './CategorySelector.module.css';
 
 interface CategorySelectorProps {
   value: number[];
@@ -42,7 +42,7 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
   };
 
   return (
-    <div className={styles.container}>
+    <section className={classes.container}>
       <MultiSelect
         label="Categories"
         placeholder="Select categories"
@@ -53,23 +53,23 @@ export function CategorySelector({ value, onChange }: CategorySelectorProps) {
         disabled={categoriesLoading}
       />
 
-      <div className={styles.inputGroup}>
+      <fieldset className={classes.inputGroup}>
         <TextInput
           placeholder="Quick add new category"
           value={newCategoryName}
           onChange={(event) => setNewCategoryName(event.currentTarget.value)}
-          className={styles.textInput}
+          className={classes.textInput}
         />
         <Button
           size="sm"
           onClick={handleCreateCategory}
           loading={isCreatingCategory}
           disabled={!newCategoryName.trim()}
-          className={styles.addButton}
+          className={classes.addButton}
         >
           Add Category
         </Button>
-      </div>
-    </div>
+      </fieldset>
+    </section>
   );
 }

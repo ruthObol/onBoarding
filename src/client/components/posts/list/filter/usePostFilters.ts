@@ -32,7 +32,7 @@ export const usePostFilters = (onFiltersChange: (filters: FilterState) => void) 
 
   useEffect(() => {
     onFiltersChange(filters);
-  }, [filters, onFiltersChange]);
+  }, [filters]);
 
   const handleSearchChange = (value: string) => {
     setFilters(prev => ({ ...prev, search: value }));
