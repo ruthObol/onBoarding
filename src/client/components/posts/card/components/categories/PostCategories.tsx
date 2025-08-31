@@ -1,4 +1,5 @@
-import { Group, Badge } from '@mantine/core';
+import { Badge, Group } from '@mantine/core';
+
 import classes from './PostCategories.module.css';
 
 interface PostCategory {
@@ -20,11 +21,8 @@ export const PostCategories = ({ postCategories }: PostCategoriesProps) => {
 
   return (
     <Group className={classes.categoriesContainer}>
-      {postCategories.map((postCategory) => (
-        <Badge 
-          key={postCategory.id} 
-          className={classes.categoryBadge}
-        >
+      {postCategories.map(postCategory => (
+        <Badge key={postCategory.id} className={classes.categoryBadge}>
           #{postCategory.category.name}
         </Badge>
       ))}

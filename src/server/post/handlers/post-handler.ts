@@ -1,28 +1,38 @@
-import { Post, PostSchemaType } from "@/src/types";
-import { NextApiRequest, NextApiResponse } from "next";
-import { createPost, getPosts } from "../dal/posts-dal";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export const getPostsHandler = async (req: NextApiRequest, res: NextApiResponse<Post[]>) => {
-    const { search, categories, difficulty } = req.query;
+import { Post, PostSchemaType } from '@/src/types';
 
-    const filters = {
-        search: typeof search === 'string' ? search : undefined,
-        categories: Array.isArray(categories)
-            ? categories
-            : categories
-                ? [categories]
-                : undefined,
-        difficulty: typeof difficulty === 'string' ? difficulty : undefined,
-    };
+import { createPost, getPosts } from '../dal/posts-dal';
 
-    const posts = await getPosts(filters);
-    res.status(200).json(posts);
+export const getPostsHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Post[]>
+) => {
+  const { search, categories, difficulty } = req.query;
+
+  const filters = {
+    search: typeof search === 'string' ? search : undefined,
+    categories: Array.isArray(categories)
+      ? categories
+      : categories
+        ? [categories]
+        : undefined,
+    difficulty: typeof difficulty === 'string' ? difficulty : undefined,
+  };
+
+  const posts = await getPosts(filters);
+  res.status(200).json(posts);
+};
+
+interface CreatePostRequest extends NextApiRequest {
+  body: PostSchemaType;
 }
 
-interface CreatePostRequest extends NextApiRequest { body: PostSchemaType }
-
-export const createPostHandler = async (req: CreatePostRequest, res: NextApiResponse<any>) => {
-    const postData = req.body;
-    const post = await createPost(postData)
-    res.status(201).json(post);
-}
+export const createPostHandler = async (
+  req: CreatePostRequest,
+  res: NextApiResponse
+) => {
+  const postData = req.body;
+  const post = await createPost(postData);
+  res.status(201).json(post);
+};

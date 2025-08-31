@@ -1,5 +1,5 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { AnyZodObject, ZodError } from "zod";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import { AnyZodObject, ZodError } from 'zod';
 
 export const validateRequest =
   (schema: AnyZodObject) =>
@@ -13,7 +13,10 @@ export const validateRequest =
       if (error instanceof ZodError) {
         return res.status(400).json(error);
       }
-      console.error(error, 'An error occurred while trying to validate the request');
+      console.error(
+        error,
+        'An error occurred while trying to validate the request'
+      );
       return res.status(500);
     }
     return next(req, res);

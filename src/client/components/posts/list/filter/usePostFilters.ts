@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { BuildDifficulty, Category } from "@prisma/client";
-import useSWR from "swr";
-import { KEYS } from "@/src/client/config/swr";
+import { useEffect, useState } from 'react';
+import { BuildDifficulty, Category } from '@prisma/client';
+import useSWR from 'swr';
+import { KEYS } from '@/src/client/config/swr';
 
 export interface FilterState {
   search: string;
@@ -10,15 +10,17 @@ export interface FilterState {
 }
 
 const difficultyOptions = [
-  { value: BuildDifficulty.EASY, label: "Easy" },
-  { value: BuildDifficulty.MEDIUM, label: "Medium" },
-  { value: BuildDifficulty.HARD, label: "Hard" },
-  { value: BuildDifficulty.EXPERT, label: "Expert" },
+  { value: BuildDifficulty.EASY, label: 'Easy' },
+  { value: BuildDifficulty.MEDIUM, label: 'Medium' },
+  { value: BuildDifficulty.HARD, label: 'Hard' },
+  { value: BuildDifficulty.EXPERT, label: 'Expert' },
 ];
 
-export const usePostFilters = (onFiltersChange: (filters: FilterState) => void) => {
+export const usePostFilters = (
+  onFiltersChange: (filters: FilterState) => void
+) => {
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
+    search: '',
     categories: [],
     difficulty: null,
   });
@@ -32,7 +34,7 @@ export const usePostFilters = (onFiltersChange: (filters: FilterState) => void) 
 
   useEffect(() => {
     onFiltersChange(filters);
-  }, [filters]);
+  }, [filters, onFiltersChange]);
 
   const handleSearchChange = (value: string) => {
     setFilters(prev => ({ ...prev, search: value }));
@@ -43,9 +45,15 @@ export const usePostFilters = (onFiltersChange: (filters: FilterState) => void) 
   };
 
   const handleDifficultyChange = (value: string | null) => {
-    const difficulty = value ? (Object.values(BuildDifficulty).includes(value as BuildDifficulty) ? value as BuildDifficulty : null) : null;
+    const difficulty = value
+      ? Object.values(BuildDifficulty).includes(value as BuildDifficulty)
+        ? (value as BuildDifficulty)
+        : null
+      : null;
     setFilters(prev => ({ ...prev, difficulty }));
   };
+
+  const resetDifficulty = () => { handleDifficultyChange(null); }
 
   return {
     filters,
@@ -54,5 +62,6 @@ export const usePostFilters = (onFiltersChange: (filters: FilterState) => void) 
     handleSearchChange,
     handleCategoriesChange,
     handleDifficultyChange,
+    resetDifficulty
   };
 };

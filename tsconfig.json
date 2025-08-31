@@ -30,7 +30,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ES2020"],
-    "allowJs": false,                       // keep true only if you need JS files
+    "allowJs": false, // keep true only if you need JS files
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -44,7 +44,7 @@
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": { "@/*": ["./*"] },
-    "types": ["node"]                       // helps with Node APIs and many libs
+    "types": ["node"] // helps with Node APIs and many libs
   },
   "include": [
     "next-env.d.ts",

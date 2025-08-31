@@ -1,19 +1,16 @@
-import { 
-  Group, 
-  TextInput, 
-  Select, 
+import {
+  ActionIcon,
+  Group,
   MultiSelect,
-  ActionIcon
-} from "@mantine/core";
-import { IconSearch, IconX } from "@tabler/icons-react";
-import classes from "./PostFilters.module.css";
-import { usePostFilters, FilterState } from "./usePostFilters";
-
+  Select,
+  TextInput,
+} from '@mantine/core';
+import { IconSearch, IconX } from '@tabler/icons-react';
+import classes from './PostFilters.module.css';
+import { FilterState, usePostFilters } from './usePostFilters';
 interface PostFiltersProps {
   onFiltersChange: (filters: FilterState) => void;
 }
-
-export type { FilterState };
 
 export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
   const {
@@ -23,20 +20,21 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
     handleSearchChange,
     handleCategoriesChange,
     handleDifficultyChange,
+    resetDifficulty
   } = usePostFilters(onFiltersChange);
 
   return (
     <Group className={classes.filtersContainer}>
       <TextInput
-        placeholder="Search by title..."
+        placeholder='Search by title...'
         value={filters.search}
-        onChange={(event) => handleSearchChange(event.currentTarget.value)}
+        onChange={event => handleSearchChange(event.currentTarget.value)}
         leftSection={<IconSearch size={16} />}
         className={classes.searchInput}
       />
 
       <MultiSelect
-        placeholder="Categories..."
+        placeholder='Categories...'
         data={categoryOptions}
         value={filters.categories}
         onChange={handleCategoriesChange}
@@ -46,7 +44,7 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
 
       <Group className={classes.difficultyContainer}>
         <Select
-          placeholder="Difficulty..."
+          placeholder='Difficulty...'
           data={difficultyOptions}
           value={filters.difficulty}
           onChange={handleDifficultyChange}
@@ -54,14 +52,14 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
         />
         {filters.difficulty && (
           <ActionIcon
-            variant="subtle"
-            size="sm"
-            onClick={() => handleDifficultyChange(null)}
+            variant='subtle'
+            size='sm'
+            onClick={resetDifficulty}
             className={classes.clearButton}
           >
             <IconX size={14} />
           </ActionIcon>
-        )}
+        )} 
       </Group>
     </Group>
   );

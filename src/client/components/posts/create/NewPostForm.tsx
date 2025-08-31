@@ -1,5 +1,3 @@
-import { useUserStore } from '@/src/client/stores/user-store';
-import { BuildDifficulty } from '@prisma/client';
 import {
   Button,
   Group,
@@ -9,15 +7,19 @@ import {
   Stack,
   TextInput,
   Textarea,
-  Title
+  Title,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { zodResolver } from '@mantine/form';
+import { useForm, zodResolver } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { CategorySelector } from '../card/category/CategorySelector';
-import { useCreatePost } from './hooks/useCreatePost';
+import { BuildDifficulty } from '@prisma/client';
+
+import { useUserStore } from '@/src/client/stores/user-store';
 import { PostSchema } from '@/src/schemas/post-schema';
 import { PostSchemaType } from '@/src/types';
+
+import { CategorySelector } from '../card/category/CategorySelector';
+
+import { useCreatePost } from './hooks/useCreatePost';
 
 interface NewPostFormProps {
   opened: boolean;
@@ -32,7 +34,7 @@ const buildDifficultyOptions = [
 ];
 
 export function NewPostForm({ opened, onClose }: NewPostFormProps) {
-  const  userName  = useUserStore((state) => state.userName);
+  const userName = useUserStore(state => state.userName);
 
   const form = useForm<PostSchemaType>({
     initialValues: {
@@ -49,7 +51,6 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
     validate: zodResolver(PostSchema),
   });
 
-
   const handleSuccess = () => {
     notifications.show({
       title: 'Success! 🎉',
@@ -60,7 +61,7 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
 
     form.reset();
     onClose();
-  }
+  };
 
   const handleError = (error: Error) => {
     notifications.show({
@@ -69,9 +70,12 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
       color: 'red',
       autoClose: 7000,
     });
-  }
+  };
 
-  const { createPost, isSubmiting: isCreating } = useCreatePost(handleSuccess, handleError);
+  const { createPost, isSubmiting: isCreating } = useCreatePost(
+    handleSuccess,
+    handleError
+  );
 
   const handleSubmit = async (values: PostSchemaType) => {
     const transformedData = {
@@ -79,7 +83,7 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
     };
 
     await createPost(transformedData);
-  }
+  };
 
   const handleFormSubmit = form.onSubmit(handleSubmit);
 
@@ -88,13 +92,13 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
       opened={opened}
       onClose={onClose}
       title={<Title order={2}>Add New Lego Post</Title>}
-      size="lg"
+      size='lg'
       centered
     >
       <form onSubmit={handleFormSubmit}>
-        <Stack gap="md">
+        <Stack gap='md'>
           <TextInput
-            label="Author"
+            label='Author'
             value={userName || 'Not logged in'}
             disabled
             styles={{
@@ -106,15 +110,15 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
           />
 
           <TextInput
-            label="Title"
-            placeholder="Enter post title"
+            label='Title'
+            placeholder='Enter post title'
             {...form.getInputProps('title')}
             required
           />
 
           <Textarea
-            label="Content"
-            placeholder="Describe your Lego build..."
+            label='Content'
+            placeholder='Describe your Lego build...'
             {...form.getInputProps('content')}
             minRows={4}
             required
@@ -122,28 +126,28 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
 
           <Group grow>
             <TextInput
-              label="Lego Model Number"
-              placeholder="e.g., 42100"
+              label='Lego Model Number'
+              placeholder='e.g., 42100'
               {...form.getInputProps('legoModelNumber')}
               required
             />
 
             <NumberInput
-              label="Number of Pieces"
-              placeholder="e.g., 1000"
+              label='Number of Pieces'
+              placeholder='e.g., 1000'
               {...form.getInputProps('pieces')}
             />
           </Group>
 
           <TextInput
-            label="Contact Phone"
-            placeholder="Your phone number"
+            label='Contact Phone'
+            placeholder='Your phone number'
             {...form.getInputProps('contactPhone')}
             required
           />
 
           <Select
-            label="Build Difficulty"
+            label='Build Difficulty'
             data={buildDifficultyOptions}
             {...form.getInputProps('buildDifficulty')}
             required
@@ -151,20 +155,20 @@ export function NewPostForm({ opened, onClose }: NewPostFormProps) {
 
           <CategorySelector
             value={form.values.categoryIds || []}
-            onChange={(value) => form.setFieldValue('categoryIds', value)}
+            onChange={value => form.setFieldValue('categoryIds', value)}
           />
 
           <TextInput
-            label="Image URL"
-            placeholder="https://example.com/image.jpg"
+            label='Image URL'
+            placeholder='https://example.com/image.jpg'
             {...form.getInputProps('imageUrl')}
           />
 
-          <Group justify="flex-end" mt="md">
-            <Button variant="outline" onClick={onClose}>
+          <Group justify='flex-end' mt='md'>
+            <Button variant='outline' onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={isCreating}>
+            <Button type='submit' loading={isCreating}>
               Create Post
             </Button>
           </Group>

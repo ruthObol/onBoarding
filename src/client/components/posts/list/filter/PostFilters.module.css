@@ -1,8 +1,9 @@
 .filtersContainer {
-  width: 30%;
+  width: 1000px;
   display: flex;
-  gap: var(--mantine-spacing-md);
-  align-items: flex-end;
+  /* background-color: red; */
+  /* gap: var(--mantine-spacing-md); */
+  align-items: flex-start;
 }
 
 .searchInput {

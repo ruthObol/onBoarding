@@ -1,5 +1,7 @@
-import { useUserStore } from '@/src/client/stores/user-store';
 import { Button, Group, Modal, Text, TextInput } from '@mantine/core';
+
+import { useUserStore } from '@/src/client/stores/user-store';
+
 import classes from './UserNameInput.module.css';
 
 interface UserNameInputProps {
@@ -16,7 +18,7 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const userName = formData.get('userName');
 
-    setUserName(userName?.toString() || '')
+    setUserName(userName?.toString() || '');
     onClose();
   };
 
@@ -24,7 +26,7 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Welcome! Please enter your name"
+      title='Welcome! Please enter your name'
       centered
       closeOnClickOutside={false}
       closeOnEscape={false}
@@ -35,8 +37,8 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
         </Text>
 
         <TextInput
-          label="Your Name"
-          placeholder="Enter your name"
+          label='Your Name'
+          placeholder='Enter your name'
           required
           autoFocus
           name='userName'
@@ -44,9 +46,7 @@ export const UserNameInput = ({ opened, onClose }: UserNameInputProps) => {
         />
 
         <Group className={classes.buttonGroup}>
-          <Button type="submit">
-            Continue
-          </Button>
+          <Button type='submit'>Continue</Button>
         </Group>
       </form>
     </Modal>

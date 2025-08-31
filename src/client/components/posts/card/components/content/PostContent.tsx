@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+
 import classes from './PostContent.module.css';
 
 interface PostContentProps {
@@ -6,9 +7,5 @@ interface PostContentProps {
 }
 
 export const PostContent = ({ content }: PostContentProps) => {
-  return (
-    <Text className={classes.content}>
-      {content}
-    </Text>
-  );
+  return <Text className={classes.content}>{content}</Text>;
 };

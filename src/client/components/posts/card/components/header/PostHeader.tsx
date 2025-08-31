@@ -1,4 +1,5 @@
-import { Group, Text, Badge } from '@mantine/core';
+import { Badge, Group, Text } from '@mantine/core';
+
 import classes from './PostHeader.module.css';
 
 interface PostHeaderProps {

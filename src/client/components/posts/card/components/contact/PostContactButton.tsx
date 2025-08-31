@@ -1,4 +1,5 @@
 import { Button } from '@mantine/core';
+
 import classes from './PostContactButton.module.css';
 
 interface PostContactButtonProps {
@@ -11,10 +12,7 @@ export const PostContactButton = ({ contactPhone }: PostContactButtonProps) => {
   };
 
   return (
-    <Button 
-      className={classes.contactButton}
-      onClick={handleClick}
-    >
+    <Button className={classes.contactButton} onClick={handleClick}>
       {contactPhone}
     </Button>
   );

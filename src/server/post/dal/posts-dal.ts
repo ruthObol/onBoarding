@@ -1,9 +1,11 @@
-import { BuildDifficulty } from '@prisma/client';
-import prismaClient from '../../lib/prisma';
+import { Prisma } from '@prisma/client';
+
 import { PostFilters, PostSchemaType } from '@/src/types';
 
+import prismaClient from '../../lib/prisma';
+
 export const getPosts = (filters?: PostFilters) => {
-  const where: any = {
+  const where: Prisma.PostWhereInput = {
     deletedAt: null,
   };
 
@@ -15,7 +17,7 @@ export const getPosts = (filters?: PostFilters) => {
   }
 
   if (filters?.difficulty) {
-    where.buildDifficulty = filters.difficulty;
+    where.buildDifficulty = filters.difficulty as any;
   }
 
   if (filters?.categories && filters.categories.length > 0) {
@@ -43,13 +45,21 @@ export const getPosts = (filters?: PostFilters) => {
   });
 };
 
-
 export const createPost = async (postData: PostSchemaType) => {
-  const { title, contactPhone, content, legoModelNumber, pieces, imageUrl, buildDifficulty, publisher, categoryIds } = postData;
+  const {
+    title,
+    contactPhone,
+    content,
+    legoModelNumber,
+    pieces,
+    imageUrl,
+    buildDifficulty,
+    publisher,
+    categoryIds,
+  } = postData;
 
   return prismaClient.post.create({
-    data:
-    {
+    data: {
       title,
       content,
       legoModelNumber,
@@ -58,18 +68,21 @@ export const createPost = async (postData: PostSchemaType) => {
       contactPhone,
       buildDifficulty,
       publisher,
-      postCategories: categoryIds && categoryIds.length > 0 ? {
-        create: categoryIds.map(categoryId => ({
-          categoryId
-        }))
-      } : undefined,
+      postCategories:
+        categoryIds && categoryIds.length > 0
+          ? {
+              create: categoryIds.map(categoryId => ({
+                categoryId,
+              })),
+            }
+          : undefined,
     },
     include: {
       postCategories: {
         include: {
-          category: true
-        }
-      }
-    }
+          category: true,
+        },
+      },
+    },
   });
-}
+};

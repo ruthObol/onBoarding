@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import Image from 'next/image';
+
 import classes from './PostImage.module.css';
 
 interface PostImageProps {
@@ -24,11 +26,17 @@ export const PostImage = ({ imageUrl, title }: PostImageProps) => {
       </div>
 
       {imageModalOpen && (
-        <div className={classes.modalOverlay} onClick={() => setImageModalOpen(false)}>
-          <div className={classes.modalContent} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={classes.modalOverlay}
+          onClick={() => setImageModalOpen(false)}
+        >
+          <div
+            className={classes.modalContent}
+            onClick={e => e.stopPropagation()}
+          >
             <div className={classes.modalHeader}>
               <h3 className={classes.modalTitle}>{title}</h3>
-              <button 
+              <button
                 className={classes.closeButton}
                 onClick={() => setImageModalOpen(false)}
               >
