@@ -4,7 +4,7 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
-import '../styles/global.css';
+import './global.css';
 
 const theme = createTheme({
   fontFamily: 'Inter, sans-serif',

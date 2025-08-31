@@ -1,25 +1,14 @@
-import { errorHandler } from '@/server/middlewares/errorHandler';
-import {
-  createCategory,
-  getCategories,
-} from '@/server/post/dal/categories-dal';
+
+import { CreateCategoryRequestSchema } from '@/src/schemas/category-schema';
+import { createCategoryHandler, getCategoriesHandler } from '@/src/server/category/handlers/category-handler';
+import { errorHandler } from '@/src/server/middlewares/errorHandler';
+import { validateRequest } from '@/src/server/middlewares/validation';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const categories = await getCategories();
-  res.status(200).json(categories);
-}
-
-async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const { name } = req.body;
-  const category = await createCategory(name);
-  res.status(201).json(category);
-}
-
-router.get(getHandler);
-router.post(postHandler);
+router.get(getCategoriesHandler);
+router.post(validateRequest(CreateCategoryRequestSchema), createCategoryHandler);
 
 export default router.handler({ onError: errorHandler });
