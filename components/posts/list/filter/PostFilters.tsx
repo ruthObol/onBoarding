@@ -57,8 +57,9 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
     setFilters(prev => ({ ...prev, categories: value }));
   };
 
-  const handleDifficultyChange = (value: BuildDifficulty | null) => {
-    setFilters(prev => ({ ...prev, difficulty: value }));
+  const handleDifficultyChange = (value: string | null) => {
+    const difficulty = value ? (Object.values(BuildDifficulty).includes(value as BuildDifficulty) ? value as BuildDifficulty : null) : null;
+    setFilters(prev => ({ ...prev, difficulty }));
   };
 
   return (
@@ -86,7 +87,6 @@ export const PostFilters = ({ onFiltersChange }: PostFiltersProps) => {
           data={difficultyOptions}
           value={filters.difficulty}
           onChange={handleDifficultyChange}//TODO
-          
           className={classes.difficultySelect}
         />
         {filters.difficulty && (

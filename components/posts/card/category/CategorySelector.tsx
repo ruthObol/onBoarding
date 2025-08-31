@@ -4,11 +4,6 @@ import { notifications } from '@mantine/notifications';
 import { useGetCategories } from './hooks/useGetCategories';
 import { useCreateCategory } from './hooks/useCreateCategory';
 
-interface Category {
-  id: number;
-  name: string;
-}
-
 interface CategorySelectorProps {
   value: number[];
   onChange: (value: number[]) => void;

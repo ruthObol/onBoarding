@@ -1,0 +1,11 @@
+.content {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
